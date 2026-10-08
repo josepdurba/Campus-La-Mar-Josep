@@ -1,6 +1,6 @@
 # Campus-La-Mar-Josep
 ```text
-campus-la-mar-grupo JJY/
+campus-la-mar-grupo Josep/
 │
 ├── README.md
 ├── .gitignore
