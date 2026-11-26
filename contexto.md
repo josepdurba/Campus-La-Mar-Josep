@@ -370,3 +370,13 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Limitación:** este análisis se basa en los resultados que ha pegado el usuario. No se ha ejecutado ninguna consulta en MySQL, ni se ha accedido al servidor AWS, ni se han modificado los datos.
 - **Estado:** datos actuales comunicados por el usuario y revisión lógica inicial realizada; reglas de negocio y pruebas de integridad pendientes.
 - **Siguiente paso recomendado:** acordar las reglas de negocio de plazas, estado de curso y registro de usuarios antes de implementar el backend que gestione matrículas y listas de espera.
+
+
+## 18. Documentación de clase en `docs/`
+
+### 2026-11-26 — El usuario aclara dónde está el material trabajado en clase
+
+- El usuario indica que dentro de `docs/`, organizado en carpetas, se encuentra la información y documentación tratada en clase.
+- **Criterio de trabajo acordado:** utilizar esa documentación como referencia funcional y académica prioritaria antes de tomar decisiones de diseño o implementar funcionalidades. Contrastar sus requisitos y decisiones con el esquema MySQL, los datos existentes y el código real.
+- No asumir requisitos ni reglas de negocio que no estén respaldados por la documentación o confirmados por el usuario.
+- **Pendiente:** revisar el contenido de las carpetas y documentos concretos de `docs/` conforme se aborden las distintas partes del proyecto; no se ha realizado una auditoría completa de esa documentación en esta conversación.
