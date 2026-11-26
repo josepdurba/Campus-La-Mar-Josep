@@ -140,6 +140,15 @@ La existencia de estas tareas no demuestra que las funcionalidades estén implem
 
 ## 7. Registro de actividad y decisiones
 
+### 2026-11-26 — Actualización del esquema SQL
+
+- El usuario facilitó los nuevos `CREATE TABLE` de 17 tablas distintas; las definiciones repetidas de `areas` y `usuarios` se deduplicaron.
+- Se actualizó `database/01_creacion.sql` en la rama `main` para reflejar el nuevo esquema y ordenar las tablas según sus dependencias.
+- Se documentaron las diferencias respecto al esquema anterior, incluida la eliminación de `grupos`, la relación directa de sesiones/matrículas/listas de espera con cursos y los nuevos catálogos de estados.
+- No se ejecutó el script en MySQL ni se modificó la base de datos alojada en AWS.
+- Commit del archivo SQL: `16895dc3cbac4961561e0faa3a4411479ce37fb6`.
+- **Estado:** SQL actualizado en GitHub; validación de ejecución y revisión de scripts dependientes pendientes.
+
 ### 2026-11-26 — Revisión inicial y creación del contexto
 
 - Se revisó el README y la estructura general conocida del repositorio.
@@ -175,16 +184,27 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Estado:** planificación creada y guardada en GitHub. Es una propuesta inicial; las tareas aún no están realizadas y el calendario debe ajustarse cuando se confirme la fecha exacta de entrega y el alcance definitivo.
 
 
-## 10. Información nueva: base de datos existente
+## 10. Esquema actual de la base de datos
 
-### 2026-11-26 — El usuario confirma que la base de datos ya está creada
+### 2026-11-26 — Recepción y actualización de los CREATE TABLE definitivos
 
-- El usuario indica que dispone de una base de datos creada y que contiene tablas.
-- Todavía no se han recibido ni inspeccionado los archivos de la base de datos; por tanto, se desconocen el motor, las tablas, columnas, relaciones, claves, restricciones e índices concretos.
-- **Decisión de planificación:** no diseñar ni crear la BD desde cero por defecto. Cuando se reciban los archivos, revisar el esquema existente y contrastarlo con los requisitos; proponer únicamente los ajustes necesarios.
-- Se han adaptado las semanas 5 y 6 de `docs/04-planificacion/planificacion.md` para auditar y validar la base de datos existente.
-- **Estado:** información comunicada por el usuario; revisión técnica pendiente de recibir los archivos.
-
+- El usuario confirma que la base de datos existente utiliza **MySQL** y facilita las definiciones actuales de sus tablas.
+- Se han recibido **17 tablas distintas**: `usuarios`, `roles`, `usuario_rol`, `areas`, `cursos`, `docente_curso`, `aulas`, `sesiones`, `matriculas`, `listas_espera`, `asistencias`, `comunicaciones`, `solicitudes_registro`, `estados_asistencia`, `estados_lista_espera`, `estados_matricula` y `estados_solicitud`.
+- Las definiciones repetidas de `areas` y `usuarios` en los mensajes se han contado una sola vez.
+- **Cambios estructurales respecto al anterior `database/01_creacion.sql`:**
+  - Ya no existe la tabla `grupos` en el esquema nuevo.
+  - `sesiones` se relaciona directamente con `cursos` mediante `curso_id` (antes la versión del archivo vinculaba sesiones a grupos).
+  - `matriculas` y `listas_espera` se relacionan directamente con `usuarios` y `cursos), mediante `persona_id`, `curso_id` y `estado_id`.
+  - `asistencias` se relaciona con `usuarios`, `sesiones` y `estados_asistencia`; ya no utiliza `matricula_id`.
+  - Los estados de matrículas, listas de espera, asistencias y solicitudes se normalizan en tablas independientes, en lugar de ENUM en esas tablas.
+  - `cursos` incorpora `asignatura` e `idioma`.
+  - Se incorporan `comunicaciones` y `solicitudes_registro`.
+- **Archivo actualizado en GitHub:** `database/01_creacion.sql`. Se ha reemplazado su contenido con las 17 definiciones facilitadas, ordenadas para crear primero las tablas referenciadas por claves foráneas. Se conserva `USE campus_la_mar;`.
+- No se han copiado los valores actuales de `AUTO_INCREMENT` del volcado, porque son contadores de estado de la base de datos y no necesarios para definir la estructura inicial.
+- **Revisión estática realizada:** se comprobó que las tablas referenciadas aparecen antes que las tablas dependientes en el script actualizado. No se ha ejecutado el SQL en MySQL ni se ha probado contra el servidor AWS.
+- **Importante:** el archivo representa la estructura DDL facilitada por el usuario; no modifica automáticamente una base de datos ya existente. Para aplicar cambios a una BD con datos habría que preparar y revisar migraciones `ALTER TABLE`/migración de datos, no volver a ejecutar sin más el script de creación.
+- **Estado:** archivo SQL actualizado en GitHub; ejecución y validación real en MySQL pendientes.
+- **Siguiente paso recomendado:** contrastar `02_datos_pruebas.sql`, `03_consultas.sql` y el backend con los nuevos nombres de columnas y relaciones, especialmente los cambios de `grupos` a `cursos` y de `alumno_id/matricula_id` a `persona_id/estado_id`.
 
 ## 11. Infraestructura AWS comunicada por el usuario
 
