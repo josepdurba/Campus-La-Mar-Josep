@@ -214,3 +214,19 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Pendiente de verificar:** versión de MySQL, versión de PHP, disponibilidad de `pdo_mysql`, host privado/puerto, nombre de la base de datos, usuario y privilegios mínimos, TLS si aplica y conectividad desde WEB.
 - No se han recibido credenciales ni se han realizado conexiones o pruebas contra AWS.
 - **Estado:** motor MySQL confirmado por el usuario; integración técnica pendiente.
+
+
+## 13. Herramientas de trabajo y acceso a los servidores
+
+### 2026-11-26 — Entorno de administración confirmado
+
+- El usuario confirma que actualmente:
+  - Se conecta a la base de datos MySQL mediante **MySQL Workbench**.
+  - Accede al servidor WEB mediante **VS Code con SSH**.
+- Flujo habitual de trabajo conocido:
+  - Edición y administración de archivos del sitio/backend en el servidor WEB a través de VS Code Remote SSH.
+  - Administración y consulta del esquema/datos MySQL mediante MySQL Workbench.
+  - GitHub se utiliza como repositorio del proyecto y documentación.
+- **Pendiente de documentar/verificar:** si el repositorio local de Git está en el propio servidor WEB o en otra máquina; cómo se sincronizan los cambios entre VS Code/servidor y GitHub; si Workbench conecta a MySQL por túnel SSH, VPN o red privada; y qué entorno se usa para pruebas.
+- **Buenas prácticas acordadas como orientación:** no guardar contraseñas ni claves SSH en el repositorio; no compartir secretos en el chat; exportar el esquema SQL sin datos personales ni credenciales cuando se vaya a revisar; mantener copias de seguridad antes de cambios de estructura o datos.
+- **Estado:** herramientas comunicadas por el usuario; configuración exacta de conexiones y flujo Git aún pendiente de verificar.
