@@ -161,3 +161,15 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Estado:** implementado / revisado estáticamente / probado / pendiente.
 - **Documentación actualizada:** documentos creados o modificados.
 - **Pendiente:** tareas siguientes, bloqueos y cuestiones abiertas.
+
+
+## 9. Planificación hasta fin de curso
+
+### 2026-11-26 — Creación de la planificación
+
+- Se creó `docs/04-planificacion/planificacion.md`.
+- La planificación propone 28 sesiones de 3 horas (84 horas en total), desde finales de noviembre de 2026 hasta junio de 2027, tomando junio como fecha provisional de fin de curso.
+- Se divide el trabajo en organización y análisis, requisitos y diseño, datos y entorno, backend, usuarios y autenticación, funcionalidades de gestión, integración frontend/backend, calidad, seguridad, estabilización y entrega.
+- Cada sesión reserva como orientación 2 horas para implementación, 30 minutos para pruebas y 30 minutos para documentación y seguimiento.
+- Se incluyen hitos, criterios de cierre, prioridades para recortar alcance y una tabla de registro de sesiones.
+- **Estado:** planificación creada y guardada en GitHub. Es una propuesta inicial; las tareas aún no están realizadas y el calendario debe ajustarse cuando se confirme la fecha exacta de entrega y el alcance definitivo.
