@@ -250,3 +250,26 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Seguridad:** no solicitar ni almacenar en GitHub la clave `.pem`, contraseñas, claves privadas ni otros secretos. Para diagnosticar, pedir únicamente nombres de usuario, mensajes de error redactados y parámetros no sensibles.
 - **Estado:** usuario SSH `ubuntu` y reutilización de la misma clave `.pem` confirmados por el usuario; túnel descrito por el usuario; conexión y permisos no probados ni auditados en esta sesión.
 - **Siguiente paso:** identificar el usuario MySQL usado en Workbench y, si persisten los fallos, revisar los campos de conexión y el mensaje de error sin compartir credenciales.
+
+
+## 15. Direcciones y usuario MySQL comunicados
+
+### 2026-11-26 — Datos concretos de conexión aportados por el usuario
+
+- **Servidor WEB (AWS EC2):**
+  - Usuario SSH: `ubuntu`.
+  - Autenticación: clave privada `.pem` (la misma que se utiliza en VS Code Remote SSH y en el túnel SSH de MySQL Workbench).
+  - Dirección: IP pública de la instancia.
+  - **Incidencia:** el usuario indica que la IP pública debe cambiarse/actualizarse cada vez que la máquina vuelve a iniciarse. Esto es compatible con el comportamiento de una IPv4 pública autoasignada cuando una instancia EC2 se detiene y se vuelve a iniciar; no se ha comprobado el ciclo exacto de la instancia ni su configuración de red.
+- **Servidor BD (AWS EC2):**
+  - IP privada comunicada: `172.31.30.194`.
+  - Usuario MySQL utilizado: `campus_admin`.
+  - Motor: MySQL.
+  - El acceso se realiza a través del túnel SSH establecido por el servidor WEB.
+- **Flujo de conexión conocido:** ordenador del usuario → SSH al servidor WEB (`ubuntu` + `.pem`) → túnel hacia la IP privada `172.31.30.194` → autenticación MySQL con `campus_admin`.
+- **Distinción de identidades:** `ubuntu` es el usuario del sistema Linux para SSH; `campus_admin` es una cuenta de MySQL. No son el mismo usuario ni comparten necesariamente credenciales.
+- **Mejora posible para la IP cambiante del WEB:** valorar asignar una **Elastic IP** a la instancia WEB o utilizar un nombre DNS estable. Antes de hacerlo, revisar la configuración de red y los costes vigentes de direcciones IPv4 públicas en AWS. No se ha asignado ni configurado ninguna Elastic IP.
+- **Pendiente de verificar:** IP pública actual del WEB (no es necesario guardarla aquí), tipo de dirección pública asignada, si la instancia se detiene/inicia o solo se reinicia, configuración exacta de Workbench (host/puerto MySQL de destino y puerto local del túnel), reglas de Security Groups y permisos de `campus_admin`.
+- **Seguridad:** no incluir aquí la IP pública si no es necesaria, ni contraseñas, contenido de la clave `.pem`, claves privadas o secretos. No cambiar usuarios, permisos ni reglas de AWS sin revisar antes la configuración y realizar copia/plan de reversión cuando corresponda.
+- **Estado:** datos de conexión comunicados por el usuario; no se han realizado pruebas de conectividad ni cambios en AWS.
+- **Siguiente paso:** comprobar si la instancia WEB se detiene y arranca (stop/start) o si solo se reinicia, y revisar de forma no sensible los campos de conexión de Workbench. Después se podrá decidir si conviene una Elastic IP.
