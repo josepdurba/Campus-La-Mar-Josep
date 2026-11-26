@@ -380,3 +380,89 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Criterio de trabajo acordado:** utilizar esa documentación como referencia funcional y académica prioritaria antes de tomar decisiones de diseño o implementar funcionalidades. Contrastar sus requisitos y decisiones con el esquema MySQL, los datos existentes y el código real.
 - No asumir requisitos ni reglas de negocio que no estén respaldados por la documentación o confirmados por el usuario.
 - **Pendiente:** revisar el contenido de las carpetas y documentos concretos de `docs/` conforme se aborden las distintas partes del proyecto; no se ha realizado una auditoría completa de esa documentación en esta conversación.
+
+
+## 19. Auditoría de la documentación de clase en `docs/`
+
+### 2026-11-26 — Revisión completa de las carpetas de documentación
+
+- Se ha recorrido la carpeta `docs/` de la rama `main` y se han localizado **6 documentos Markdown**, sin otros archivos dentro de las cuatro carpetas revisadas:
+  - `docs/01-analisis/entrevista.md`
+  - `docs/02-requisitos/requisitos.md`
+  - `docs/02-requisitos/historias-usuario.md`
+  - `docs/03-diseño/modelo-datos.md`
+  - `docs/03-diseño/modelo-logico.md`
+  - `docs/04-planificacion/planificacion.md`
+- Se han leído los seis documentos completos. Esta revisión es documental; no se ha modificado ningún requisito, modelo ni código del proyecto.
+- **Criterio acordado:** la entrevista, requisitos, historias de usuario y modelos de datos son la referencia funcional y académica para implementar Campus La Mar. Antes de programar una funcionalidad, contrastar sus requisitos con estos documentos, el esquema MySQL vigente, los datos de prueba y el código existente.
+
+### Resumen de decisiones funcionales encontradas
+
+- Consulta pública de la oferta formativa sin iniciar sesión.
+- Una única cuenta por persona y posibilidad de asignar varios roles.
+- Roles previstos: alumno, profesor y Secretaría/Administrador (un mismo perfil).
+- DNI/NIE obligatorio y único; fecha completa de nacimiento almacenada.
+- Registro mediante solicitud revisada por Secretaría; aceptación o rechazo antes de habilitar las funciones de la cuenta.
+- Solicitud de matrícula por parte del alumno y revisión por Secretaría.
+- Cursos con plazas limitadas; lista de espera ordenada estrictamente por llegada y asignación automática de la primera plaza cuando se libera una.
+- Si un grupo presencial no alcanza el mínimo de 8 alumnos, se aplaza a otra convocatoria; las inscripciones se conservan para la siguiente fecha. Esta regla aparece en la entrevista.
+- Cada curso corresponde a una única asignatura o actividad.
+- Los horarios los introduce manualmente la organización; el sistema debe detectar conflictos de aulas, alumnos y profesores en actividades presenciales.
+- La entrevista indica cuatro aulas físicas, aproximadamente de 25 plazas cada una.
+- Los profesores registran asistencia en sesiones presenciales. Si un alumno supera un umbral de ausencias, debe avisarse a Secretaría, pero el número exacto está pendiente de definir.
+- La formación online se controla mediante cuestionarios y calificaciones, no con el mismo sistema de asistencia presencial. Los profesores introducen calificaciones.
+- El centro puede emitir certificados de finalización.
+- Los menores de edad deben disponer de representante legal.
+- Centro interno de comunicaciones/notificaciones. No se almacena estado de lectura.
+- Debe existir un registro de acciones, especialmente operaciones críticas; su estructura está pendiente de definir.
+- La aplicación tendrá inicialmente un idioma, pero cada curso almacena su idioma de enseñanza.
+- Los perfiles se desactivan y reactivan, no se eliminan definitivamente; se conserva el historial.
+- Requisitos no funcionales: seguridad y autorización en servidor, hash seguro de contraseñas, privacidad por rol, usabilidad, accesibilidad, diseño adaptable, integridad de datos y mantenibilidad.
+
+### Historias de usuario localizadas
+
+- El documento `historias-usuario.md` contiene 20 historias:
+  - HU01 consulta pública de oferta.
+  - HU02-HU07 funciones del alumno: cursos, solicitar matrícula, consultar matrículas, horarios, asistencia y comunicaciones.
+  - HU08-HU11 funciones del profesor: cursos impartidos, sesiones, registrar asistencia e introducir calificaciones.
+  - HU12-HU20 funciones de Secretaría/Administrador: cursos, usuarios, roles, solicitudes de registro, matrículas, lista de espera, horarios/aulas, información académica y comunicaciones.
+- Las historias de usuario no detallan todavía todos los criterios de aceptación de las reglas de negocio (por ejemplo, asignación automática de lista de espera, umbral de faltas o aplazamiento por mínimo de alumnos); para esos casos prevalece la entrevista y los requisitos mientras no se amplíen las historias.
+
+### Contraste inicial entre documentación y esquema MySQL actual
+
+- El esquema físico actual tiene 17 tablas: `usuarios`, `roles`, `usuario_rol`, `areas`, `cursos`, `docente_curso`, `aulas`, `sesiones`, `matriculas`, `listas_espera`, `asistencias`, `comunicaciones`, `solicitudes_registro` y cuatro tablas de estados.
+- El modelo conceptual/lógico usa nombres genéricos o anteriores como `PERSONA`, `PERSONA_ROL`, `CURSO`, `CURSO_PROFESOR`, `MATRICULA`, etc. El esquema físico usa `usuarios`, `usuario_rol`, `cursos`, `docente_curso`, `matriculas`, etc. Son diferencias de nomenclatura que deben mapearse explícitamente; no asumir que son tablas distintas.
+- El esquema físico incluye campos que no están detallados de la misma manera en el modelo lógico: por ejemplo, `usuarios.email`, `telefono`, `password_hash`, `estado`; `cursos.codigo`, `contenidos`, `plazas_maximas`, `estado`, `area_id`, `asignatura`, `idioma`; y `aulas.tipo` y `bloqueada`.
+- El modelo lógico propone `PERSONA.Estado` como booleano activo/inactivo, mientras que la tabla física `usuarios` usa estados `pendiente`, `activo` y `rechazado`. Además, la entrevista exige poder desactivar y reactivar perfiles. Hay que aclarar cómo representar la desactivación sin confundirla con el rechazo de una solicitud de alta.
+- La entrevista exige representante legal para menores, pero no existe una tabla o relación de tutores/representantes legales en las 17 tablas físicas actuales.
+- La formación online requiere cuestionarios y calificaciones asociados al perfil del alumno, pero no existen tablas físicas de cuestionarios, intentos o calificaciones en el esquema actual.
+- La entrevista contempla certificados de finalización y registro de acciones/auditoría, pero no se identifican entidades físicas para certificados ni auditoría.
+- La entrevista establece aplazamiento de cursos presenciales cuando no se llega a 8 alumnos y conservación automática de inscripciones para la siguiente convocatoria. El esquema actual no contiene un mínimo de alumnos ni una entidad/relación explícita de convocatorias o aplazamientos.
+- La entrevista dice que hay cuatro aulas físicas; en los datos de prueba compartidos solo aparecen dos registros de aula. Esto puede ser simplemente que aún no se han cargado las otras dos, no demuestra una carencia del esquema.
+- El modelo de datos conceptual describe los estados iniciales de asistencia como Presente, Retraso y Falta; los datos actuales incluyen además Justificado, lo cual amplía el catálogo y no supone por sí solo un problema.
+- El modelo conceptual menciona una comunicación asociada a una persona concreta y el esquema físico actual lo implementa mediante `comunicaciones.persona_id`, coherente con esa relación.
+- El requisito de no almacenar estado de lectura es coherente con la estructura actual de `comunicaciones`, que no incluye un campo de lectura.
+- Las restricciones de no solapar horarios de alumnos/profesores y no duplicar el uso de aulas necesitan lógica de validación adicional; las claves foráneas y restricciones actuales no garantizan por sí solas todas esas reglas.
+
+### Planificación revisada
+
+- `planificacion.md` propone 28 sesiones de 3 horas (84 horas), con dos horas orientativas de implementación, 30 minutos de pruebas y 30 minutos de documentación.
+- La planificación reserva sesiones iniciales para revisar la base de datos existente y contrastarla con requisitos, y fases posteriores para backend, usuarios/autenticación, dominio, gestión académica, integración, pruebas, seguridad y entrega.
+- Junio de 2027 figura como horizonte provisional, pendiente de confirmar la fecha real de entrega.
+- La planificación es una propuesta; no marca como realizadas las tareas que todavía no se han implementado o probado.
+
+### Cuestiones funcionales/técnicas que quedan pendientes de decisión
+
+1. Cómo modelar tutores/representantes legales y la relación con menores.
+2. Si el alcance de la primera entrega incluye cuestionarios, intentos y calificaciones online.
+3. Cómo representar certificados y registro de acciones críticas.
+4. Cómo modelar convocatorias, aplazamientos y conservación de inscripciones al no alcanzar 8 alumnos.
+5. Definir el umbral de ausencias que genera aviso a Secretaría.
+6. Diferenciar claramente estado de cuenta (pendiente/activo/rechazado) de desactivación temporal de un perfil.
+7. Definir si el estado del curso `completo` se actualiza al alcanzar las plazas máximas y cómo se reactiva cuando hay una baja.
+8. Concretar las validaciones de solapamiento de alumnos, profesores y aulas, incluyendo qué se considera sesión presencial.
+9. Confirmar si las dos aulas que faltan en los datos de prueba se cargarán más adelante.
+10. Determinar qué funcionalidades entran en la primera versión si las 84 horas no permiten abordar todo el alcance.
+
+- **Estado:** los seis documentos de `docs/` han sido leídos; se ha realizado un primer contraste documental con el esquema físico y los datos de prueba conocidos. No se han modificado los documentos de clase ni el esquema MySQL.
+- **Siguiente paso recomendado:** priorizar y resolver las diferencias de modelo antes de implementar los módulos afectados, empezando por tutores legales, estados de usuario, matrícula/lista de espera y alcance de formación online.
