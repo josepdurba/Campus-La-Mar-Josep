@@ -316,3 +316,57 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Estado:** configuración SSH revisada a partir del fragmento proporcionado; no se ha accedido a AWS ni se ha cambiado ninguna configuración.
 - **Pendiente:** revisar si el plan educativo permite Elastic IP y qué coste tendría; después decidir si se asigna una o se mantiene el procedimiento manual. Si se elige Elastic IP, actualizar una sola vez la configuración de VS Code y el host SSH de Workbench para usar la dirección fija.
 - **Seguridad y privacidad:** no guardar en el repositorio la clave privada, su contenido, ni rutas locales del ordenador. La IP pública puede omitirse del contexto porque es un dato operativo que puede cambiar.
+
+
+## 17. Datos actuales de prueba de MySQL
+
+### 2026-11-26 — El usuario comparte los registros actuales de las tablas
+
+- El usuario facilita los resultados de consulta de las tablas de MySQL. Indica que las tablas que no aparecen en el mensaje no tienen registros.
+- Se han compartido datos de **15 tablas**; las tablas sin registros son `comunicaciones` y `solicitudes_registro`.
+- **Volumen de datos comunicado:**
+  | Tabla | Registros |
+  |---|---:|
+  | `usuarios` | 6 |
+  | `roles` | 3 |
+  | `usuario_rol` | 6 |
+  | `areas` | 2 |
+  | `cursos` | 3 |
+  | `docente_curso` | 3 |
+  | `aulas` | 2 |
+  | `sesiones` | 4 |
+  | `matriculas` | 3 |
+  | `listas_espera` | 1 |
+  | `asistencias` | 3 |
+  | `estados_asistencia` | 4 |
+  | `estados_lista_espera` | 3 |
+  | `estados_matricula` | 3 |
+  | `estados_solicitud` | 3 |
+  | `comunicaciones` | 0 |
+  | `solicitudes_registro` | 0 |
+- **Usuarios y roles:** hay tres alumnos activos (IDs 1, 2 y 3), dos docentes activos (IDs 4 y 5) y un usuario pendiente (ID 6), al que también se le ha asignado el rol alumno. Los roles existentes son administrador, docente y alumno. Ningún usuario tiene actualmente asignado el rol administrador.
+- **Áreas:** Informática y Administración.
+- **Cursos:**
+  - DAW101, Introducción al Desarrollo Web: presencial, 120 horas, 2 plazas máximas, estado `abierto`, área Informática.
+  - SIS201, Administración de Sistemas: online, 100 horas, 3 plazas máximas, estado `abierto`, área Informática.
+  - ADM101, Gestión Administrativa: presencial, 80 horas, 2 plazas máximas, estado `abierto`, área Administración.
+- **Docentes:** el usuario 4 está asignado a DAW101 y SIS201; el usuario 5 está asignado a ADM101.
+- **Aulas y sesiones:** hay dos aulas (capacidades 20 y 25) y cuatro sesiones. DAW101 tiene dos sesiones en el aula 1; SIS201 tiene una sesión con `aula_id = NULL` (coherente con su modalidad online); ADM101 tiene una sesión en el aula 2.
+- **Matrículas:** hay tres registros: usuarios 1 y 2 en DAW101, y usuario 3 en SIS201. Los tres utilizan el estado de matrícula ID 1 (`Activa`).
+- **Lista de espera:** el usuario 6 figura en DAW101 con estado ID 1 (`En espera`).
+- **Asistencias:** usuario 1 figura como Presente en la sesión 1; usuario 2 como Falta en esa misma sesión; usuario 3 figura como Justificado en la sesión 3.
+- **Catálogos de estados recibidos:**
+  - Asistencia: 1 Presente, 2 Retraso, 3 Falta, 4 Justificado.
+  - Lista de espera: 1 En espera, 2 Matriculado, 3 Cancelado.
+  - Matrícula: 1 Activa, 2 Cancelada, 3 Finalizada.
+  - Solicitud: 1 En espera, 2 Aceptada, 3 Rechazada.
+- **Observaciones y cuestiones a revisar (no son cambios realizados):**
+  1. DAW101 tiene 2 matrículas activas para 2 plazas máximas y además 1 persona en lista de espera, pero el curso sigue con estado `abierto`. Hay que definir si el estado debe pasar automáticamente a `completo` al alcanzar el límite y cómo debe gestionarse una plaza liberada.
+  2. El usuario 6 está en estado `pendiente`, tiene rol alumno y aparece en la lista de espera, pero no hay registros en `solicitudes_registro`. Confirmar si el flujo de alta debe crear obligatoriamente una solicitud y en qué momento se asigna el rol.
+  3. Existe el rol administrador, pero no hay ninguna relación en `usuario_rol` que lo asigne a un usuario. Confirmar si falta crear/asignar la cuenta administradora de pruebas.
+  4. No hay comunicaciones ni solicitudes de registro cargadas; si esas funcionalidades se van a probar, habrá que preparar datos de prueba.
+  5. Comprobar que las restricciones de capacidad se aplican también en la lógica del backend y no solo mediante el campo `plazas_maximas`.
+- Los valores de correo, documento de identidad y hashes facilitados son datos de prueba anonimizados/placeholder según el formato compartido; no se copian aquí individualmente.
+- **Limitación:** este análisis se basa en los resultados que ha pegado el usuario. No se ha ejecutado ninguna consulta en MySQL, ni se ha accedido al servidor AWS, ni se han modificado los datos.
+- **Estado:** datos actuales comunicados por el usuario y revisión lógica inicial realizada; reglas de negocio y pruebas de integridad pendientes.
+- **Siguiente paso recomendado:** acordar las reglas de negocio de plazas, estado de curso y registro de usuarios antes de implementar el backend que gestione matrículas y listas de espera.
