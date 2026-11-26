@@ -32,8 +32,8 @@ Las semanas se cuentan como sesiones de trabajo, no como semanas naturales oblig
 | 2 | Análisis | Definir perfiles de usuario, necesidades y flujos principales del sistema. | Casos de uso o descripción de flujos revisados. |
 | 3 | Requisitos | Clasificar requisitos funcionales y no funcionales. Separar imprescindibles de mejoras. | Documento de requisitos actualizado. |
 | 4 | Diseño | Revisar arquitectura, estructura de carpetas y responsabilidades frontend/backend. | Diseño técnico inicial coherente con el código. |
-| 5 | Datos | Revisar entidades y relaciones necesarias según requisitos confirmados. | Modelo entidad-relación o esquema equivalente. |
-| 6 | Datos | Definir tablas, claves, restricciones y datos de prueba. | Esquema de base de datos documentado. |
+| 5 | Base de datos existente | Revisar los archivos de la BD ya creada: tablas, columnas, tipos, claves, relaciones e índices. | Inventario y esquema actual de la BD documentados. |
+| 6 | Base de datos existente | Contrastar el esquema real con los requisitos; detectar carencias, redundancias y ajustes necesarios. Preparar datos de prueba o migraciones si hacen falta. | Informe de validación y lista de ajustes; no rediseñar desde cero sin motivo. |
 | 7 | Entorno | Comprobar o preparar el entorno local y Docker si corresponde al proyecto. | Instrucciones reproducibles para arrancar el proyecto. |
 | 8 | Backend | Revisar la estructura existente y preparar la conexión a la base de datos y configuración. | Backend con estructura y configuración verificadas. |
 | 9 | Backend | Implementar el primer flujo de acceso a datos y manejo de errores. | Primera operación de lectura/escritura probada. |
@@ -60,7 +60,7 @@ Las semanas se cuentan como sesiones de trabajo, no como semanas naturales oblig
 ## 4. Hitos de control
 
 - **Hito 1 — Análisis cerrado (semana 4):** sabemos qué vamos a construir y qué queda fuera.
-- **Hito 2 — Diseño de datos y entorno (semana 8):** modelo y entorno preparados.
+- **Hito 2 — BD existente revisada y entorno preparado (semana 8):** esquema actual entendido, contrastado con requisitos y entorno reproducible.
 - **Hito 3 — Base funcional (semana 12):** backend y acceso de usuarios funcionando en el alcance acordado.
 - **Hito 4 — Flujos principales (semana 18):** funcionalidades de gestión prioritarias integradas.
 - **Hito 5 — Aplicación integrada (semana 22):** frontend y backend conectados en los recorridos principales.
@@ -103,6 +103,11 @@ Añadir nuevas filas conforme se realicen las sesiones.
 
 - La fecha exacta de entrega de fin de curso todavía debe confirmarse; junio de 2027 se utiliza como referencia provisional.
 - Las 3 horas semanales pueden verse reducidas por vacaciones, exámenes u otras entregas. Por eso se planifican 28 sesiones y no se asignan fechas rígidas a cada una.
-- El alcance real de backend y base de datos debe verificarse en el repositorio antes de dar por pendientes o terminadas funcionalidades.
+- El usuario indica que ya tiene la base de datos creada, con tablas. Queda pendiente recibir y revisar los archivos para confirmar su motor, estructura, relaciones, restricciones y grado de adecuación a los requisitos. La planificación reserva las semanas 5 y 6 para auditar y validar esa BD existente, no para crearla desde cero.
 - Si aparecen requisitos nuevos, se priorizarán frente a tareas opcionales y se revisará el calendario.
 - La planificación no garantiza que todas las funcionalidades imaginables entren en el tiempo disponible; el objetivo es completar primero una versión mínima funcional y bien probada.
+
+
+## Ajuste de planificación — 2026-11-26
+
+El usuario ha indicado que la base de datos ya está creada y contiene tablas. Las semanas 5 y 6 pasan a dedicarse a revisar y documentar el esquema existente, contrastarlo con los requisitos y detectar ajustes o migraciones necesarios. No se planifica construir una base de datos nueva salvo que la revisión técnica lo justifique.
