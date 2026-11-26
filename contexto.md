@@ -184,3 +184,18 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Decisión de planificación:** no diseñar ni crear la BD desde cero por defecto. Cuando se reciban los archivos, revisar el esquema existente y contrastarlo con los requisitos; proponer únicamente los ajustes necesarios.
 - Se han adaptado las semanas 5 y 6 de `docs/04-planificacion/planificacion.md` para auditar y validar la base de datos existente.
 - **Estado:** información comunicada por el usuario; revisión técnica pendiente de recibir los archivos.
+
+
+## 11. Infraestructura AWS comunicada por el usuario
+
+### 2026-11-26 — Arquitectura de dos servidores
+
+- El usuario confirma que el proyecto dispone de **dos servidores en AWS**:
+  - **Servidor WEB:** aloja todo lo relacionado con la página web.
+  - **Servidor BD:** aloja la base de datos y solo permite el acceso desde el servidor WEB.
+- El flujo lógico conocido es: navegador/usuario → servidor WEB → servidor BD.
+- La restricción de acceso descrita significa que la base de datos no está expuesta para acceso directo desde los clientes; las peticiones de la aplicación deben pasar por el servidor WEB.
+- **Pendiente de verificar:** servicios y sistema operativo de cada instancia, motor y versión de base de datos, mecanismo de conexión entre servidores, reglas concretas de Security Groups/NACL/firewall, direccionamiento privado, puertos, TLS, gestión de credenciales, copias de seguridad y monitorización.
+- No se ha inspeccionado la configuración real de AWS; el diagrama arquitectónico es conceptual y se basa en la descripción del usuario.
+- **Implicación para el desarrollo:** configurar el backend en WEB para conectarse a BD mediante la red y permisos autorizados; no incluir credenciales de BD en el frontend ni permitir conexiones directas desde el navegador.
+- **Estado:** arquitectura comunicada por el usuario; revisión técnica y pruebas de conectividad pendientes.
