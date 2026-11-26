@@ -273,3 +273,26 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Seguridad:** no incluir aquí la IP pública si no es necesaria, ni contraseñas, contenido de la clave `.pem`, claves privadas o secretos. No cambiar usuarios, permisos ni reglas de AWS sin revisar antes la configuración y realizar copia/plan de reversión cuando corresponda.
 - **Estado:** datos de conexión comunicados por el usuario; no se han realizado pruebas de conectividad ni cambios en AWS.
 - **Siguiente paso:** comprobar si la instancia WEB se detiene y arranca (stop/start) o si solo se reinicia, y revisar de forma no sensible los campos de conexión de Workbench. Después se podrá decidir si conviene una Elastic IP.
+
+
+## 16. Configuración SSH de VS Code y cambio de IP pública
+
+### 2026-11-26 — El usuario comparte su configuración SSH
+
+- El usuario confirma que la instancia WEB forma parte de un plan de estudios y debe **detenerse** cuando no la utiliza. Al volver a iniciarla, cambia la IP pública asignada automáticamente por AWS.
+- Esto obliga actualmente a actualizar la IP pública del servidor WEB en los distintos lugares donde se utiliza para conectar, entre ellos VS Code y el túnel SSH de MySQL Workbench.
+- El usuario comparte esta entrada de su archivo de configuración SSH de VS Code (se omite la IP concreta y la ruta local de la clave por no ser necesarias para la documentación):
+  ```sshconfig
+  Host campus-aws
+      HostName <IP_PUBLICA_ACTUAL_DEL_WEB>
+      User ubuntu
+      IdentityFile <RUTA_LOCAL_A_LA_CLAVE_PEM>
+  ```
+- El alias SSH `campus-aws` permite conectarse usando ese nombre desde VS Code; el valor que cambia es `HostName`.
+- **Causa probable confirmada por el comportamiento descrito:** al detener y volver a iniciar una instancia EC2, una IPv4 pública autoasignada puede cambiar. Un simple reinicio del sistema operativo no suele liberar esa dirección; el cambio descrito corresponde al ciclo stop/start de EC2.
+- **Solución a valorar:** asignar una **Elastic IP** a la instancia WEB y utilizarla en `HostName` y en la configuración SSH de MySQL Workbench. La Elastic IP permanece asociada a la instancia aunque se detenga y vuelva a arrancar, siempre que se mantenga la asociación.
+- **Consideración de coste:** las direcciones IPv4 públicas de AWS pueden generar cargos según la tarifa vigente y el uso. Antes de asignar una Elastic IP, revisar la página de precios de Amazon VPC/EC2 Public IPv4 y las condiciones del plan educativo. No se ha asignado ni solicitado ninguna dirección.
+- **Alternativa:** utilizar un nombre DNS estable actualizado automáticamente cuando cambie la IP, aunque requiere configurar y mantener un mecanismo de actualización dinámica; para este proyecto puede ser más complejo que una Elastic IP.
+- **Estado:** configuración SSH revisada a partir del fragmento proporcionado; no se ha accedido a AWS ni se ha cambiado ninguna configuración.
+- **Pendiente:** revisar si el plan educativo permite Elastic IP y qué coste tendría; después decidir si se asigna una o se mantiene el procedimiento manual. Si se elige Elastic IP, actualizar una sola vez la configuración de VS Code y el host SSH de Workbench para usar la dirección fija.
+- **Seguridad y privacidad:** no guardar en el repositorio la clave privada, su contenido, ni rutas locales del ordenador. La IP pública puede omitirse del contexto porque es un dato operativo que puede cambiar.
