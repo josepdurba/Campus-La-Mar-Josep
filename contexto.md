@@ -230,3 +230,23 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Pendiente de documentar/verificar:** si el repositorio local de Git está en el propio servidor WEB o en otra máquina; cómo se sincronizan los cambios entre VS Code/servidor y GitHub; si Workbench conecta a MySQL por túnel SSH, VPN o red privada; y qué entorno se usa para pruebas.
 - **Buenas prácticas acordadas como orientación:** no guardar contraseñas ni claves SSH en el repositorio; no compartir secretos en el chat; exportar el esquema SQL sin datos personales ni credenciales cuando se vaya a revisar; mantener copias de seguridad antes de cambios de estructura o datos.
 - **Estado:** herramientas comunicadas por el usuario; configuración exacta de conexiones y flujo Git aún pendiente de verificar.
+
+
+## 14. Configuración de usuarios y túnel SSH para MySQL Workbench
+
+### 2026-11-26 — Confirmación del usuario SSH y del mecanismo de conexión
+
+- El usuario confirma que utiliza el usuario Linux **`ubuntu`** para conectarse por SSH al servidor WEB de AWS desde VS Code.
+- El usuario confirma que utiliza **el mismo archivo de clave privada `.pem`** para:
+  - Conectarse al servidor WEB mediante VS Code Remote SSH.
+  - Configurar MySQL Workbench para establecer el túnel SSH hacia el servidor WEB.
+- **Flujo de MySQL Workbench comunicado:** MySQL Workbench se ejecuta en el ordenador del usuario, autentica el salto SSH al servidor WEB mediante el usuario `ubuntu` y la clave `.pem`, y desde ese túnel alcanza el servidor MySQL del servidor BD.
+- La autenticación SSH al servidor WEB y la autenticación de MySQL son independientes:
+  - SSH: usuario Linux `ubuntu` + clave privada `.pem`.
+  - MySQL: usuario MySQL + contraseña propios.
+- El servidor WEB actúa como salto/intermediario SSH para el túnel; el servidor BD no necesita exponerse directamente a Internet para este flujo.
+- **No se ha confirmado** el nombre del usuario MySQL, host/puerto configurados en Workbench, puerto local del túnel, ni los valores exactos de la configuración SSH.
+- El usuario comenta que suele tener problemas de conexión por confusión entre usuarios. Se acuerda identificar y ordenar las cuentas y permisos antes de modificar configuraciones.
+- **Seguridad:** no solicitar ni almacenar en GitHub la clave `.pem`, contraseñas, claves privadas ni otros secretos. Para diagnosticar, pedir únicamente nombres de usuario, mensajes de error redactados y parámetros no sensibles.
+- **Estado:** usuario SSH `ubuntu` y reutilización de la misma clave `.pem` confirmados por el usuario; túnel descrito por el usuario; conexión y permisos no probados ni auditados en esta sesión.
+- **Siguiente paso:** identificar el usuario MySQL usado en Workbench y, si persisten los fallos, revisar los campos de conexión y el mensaje de error sin compartir credenciales.
