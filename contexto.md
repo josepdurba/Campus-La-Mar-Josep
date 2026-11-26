@@ -485,3 +485,20 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - **Seguridad:** la restricción debe aplicarse en el backend y en cada ruta/acción protegida; ocultar enlaces o botones en el frontend no es suficiente.
 - **Estado:** decisión funcional acordada por el usuario; todavía no implementada ni probada. No se ha modificado el código ni la base de datos.
 - **Siguiente paso:** revisar los formularios y el backend existentes, y diseñar el flujo de registro, revisión de Secretaría, autenticación y autorización antes de programarlo.
+
+
+## 21. Estrategia de ramas Git
+
+### 2026-11-26 — Flujo de trabajo acordado con `develop`
+
+- El usuario establece que el trabajo de desarrollo de Campus La Mar se realizará sobre la rama **`develop`**, no directamente sobre `main`.
+- Las tareas se desarrollarán en **ramas secundarias creadas a partir de `develop`** (por ejemplo, `feature/registro-usuarios`, `feature/autenticacion` o `fix/...`).
+- Flujo previsto:
+  1. Mantener `develop` como rama de integración del trabajo en curso.
+  2. Crear una rama específica desde la última versión de `develop` para cada funcionalidad, mejora o corrección.
+  3. Realizar commits en esa rama secundaria.
+  4. Integrar la rama secundaria de vuelta en `develop` mediante merge o pull request tras revisar y probar los cambios.
+  5. Integrar en `main` únicamente versiones estables cuando corresponda.
+- No se deben desarrollar funcionalidades directamente en `main`.
+- **Pendiente de verificar antes del primer cambio:** comprobar si `develop` ya existe en GitHub y cuál es su estado respecto a `main`. Si no existe, habrá que crearla desde la base acordada, sin alterar ni sobrescribir el trabajo existente.
+- **Estado:** estrategia de ramas acordada; no se ha creado ni cambiado ninguna rama en esta actualización.
