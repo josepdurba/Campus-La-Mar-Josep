@@ -199,3 +199,18 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - No se ha inspeccionado la configuración real de AWS; el diagrama arquitectónico es conceptual y se basa en la descripción del usuario.
 - **Implicación para el desarrollo:** configurar el backend en WEB para conectarse a BD mediante la red y permisos autorizados; no incluir credenciales de BD en el frontend ni permitir conexiones directas desde el navegador.
 - **Estado:** arquitectura comunicada por el usuario; revisión técnica y pruebas de conectividad pendientes.
+
+
+## 12. Motor de base de datos confirmado
+
+### 2026-11-26 — Confirmación de MySQL
+
+- El usuario confirma que el motor de base de datos del servidor BD de AWS es **MySQL**.
+- Arquitectura tecnológica conocida:
+  - Servidor WEB AWS: aplicación web y backend PHP.
+  - Servidor BD AWS: MySQL.
+  - El servidor WEB es el único origen autorizado, según lo comunicado, para acceder al servidor BD.
+- **Orientación técnica para la integración:** utilizar PDO de PHP con el controlador `pdo_mysql`, consultas preparadas y credenciales protegidas en configuración del servidor/variables de entorno, nunca en el frontend ni en el repositorio.
+- **Pendiente de verificar:** versión de MySQL, versión de PHP, disponibilidad de `pdo_mysql`, host privado/puerto, nombre de la base de datos, usuario y privilegios mínimos, TLS si aplica y conectividad desde WEB.
+- No se han recibido credenciales ni se han realizado conexiones o pruebas contra AWS.
+- **Estado:** motor MySQL confirmado por el usuario; integración técnica pendiente.
