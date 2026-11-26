@@ -173,3 +173,14 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - Cada sesión reserva como orientación 2 horas para implementación, 30 minutos para pruebas y 30 minutos para documentación y seguimiento.
 - Se incluyen hitos, criterios de cierre, prioridades para recortar alcance y una tabla de registro de sesiones.
 - **Estado:** planificación creada y guardada en GitHub. Es una propuesta inicial; las tareas aún no están realizadas y el calendario debe ajustarse cuando se confirme la fecha exacta de entrega y el alcance definitivo.
+
+
+## 10. Información nueva: base de datos existente
+
+### 2026-11-26 — El usuario confirma que la base de datos ya está creada
+
+- El usuario indica que dispone de una base de datos creada y que contiene tablas.
+- Todavía no se han recibido ni inspeccionado los archivos de la base de datos; por tanto, se desconocen el motor, las tablas, columnas, relaciones, claves, restricciones e índices concretos.
+- **Decisión de planificación:** no diseñar ni crear la BD desde cero por defecto. Cuando se reciban los archivos, revisar el esquema existente y contrastarlo con los requisitos; proponer únicamente los ajustes necesarios.
+- Se han adaptado las semanas 5 y 6 de `docs/04-planificacion/planificacion.md` para auditar y validar la base de datos existente.
+- **Estado:** información comunicada por el usuario; revisión técnica pendiente de recibir los archivos.
