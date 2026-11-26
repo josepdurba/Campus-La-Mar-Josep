@@ -502,3 +502,11 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 - No se deben desarrollar funcionalidades directamente en `main`.
 - **Pendiente de verificar antes del primer cambio:** comprobar si `develop` ya existe en GitHub y cuál es su estado respecto a `main`. Si no existe, habrá que crearla desde la base acordada, sin alterar ni sobrescribir el trabajo existente.
 - **Estado:** estrategia de ramas acordada; no se ha creado ni cambiado ninguna rama en esta actualización.
+
+
+### 2026-11-26 — Confirmación de la rama `develop`
+
+- El usuario confirma que la rama **`develop` ya existe** en el repositorio.
+- Se mantiene el flujo acordado: crear ramas secundarias desde `develop`, trabajar en ellas e integrarlas de vuelta en `develop`; reservar `main` para versiones estables.
+- Antes de cada tarea se comprobará el estado/actualización de `develop` y de la rama de trabajo correspondiente.
+- **Estado:** existencia de `develop` confirmada por el usuario. No se ha modificado ninguna rama ni código en esta actualización.
