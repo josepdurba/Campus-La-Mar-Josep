@@ -466,3 +466,22 @@ Añadir una nueva entrada al principio de esta sección cada vez que haya una se
 
 - **Estado:** los seis documentos de `docs/` han sido leídos; se ha realizado un primer contraste documental con el esquema físico y los datos de prueba conocidos. No se han modificado los documentos de clase ni el esquema MySQL.
 - **Siguiente paso recomendado:** priorizar y resolver las diferencias de modelo antes de implementar los módulos afectados, empezando por tutores legales, estados de usuario, matrícula/lista de espera y alcance de formación online.
+
+
+## 20. Decisión sobre la aprobación de cuentas por Secretaría
+
+### 2026-11-26 — Confirmación del flujo de alta de usuarios
+
+- El usuario confirma que le gusta y acepta que **Secretaría tenga que aprobar las cuentas nuevas** antes de que puedan utilizar las funciones de alumno.
+- Flujo acordado:
+  1. Una persona puede enviar el formulario de registro desde la web.
+  2. La cuenta queda en estado `pendiente`.
+  3. Secretaría revisa la solicitud de registro.
+  4. Secretaría puede aceptar o rechazar la solicitud.
+  5. Si se acepta, la cuenta pasa a estado `activo` y el usuario puede iniciar sesión y utilizar las funciones autorizadas por sus roles.
+  6. Si se rechaza, no se permite el acceso como usuario activo.
+- **Decisión importante:** la aprobación de la cuenta y la aprobación de una matrícula son procesos independientes. Una cuenta aprobada no concede automáticamente plaza en ningún curso. El alumno deberá solicitar matrícula y Secretaría deberá resolver esa solicitud según las plazas disponibles y las reglas de matrícula/lista de espera.
+- **Relación con el esquema actual:** las tablas `usuarios`, `solicitudes_registro` y `estados_solicitud` permiten representar parte de este flujo. Antes de implementar, hay que revisar la coherencia entre el estado de `usuarios` y el estado de `solicitudes_registro`, cuándo se asigna el rol de alumno y cómo se evita que una cuenta pendiente o rechazada pueda autenticarse o acceder a rutas protegidas.
+- **Seguridad:** la restricción debe aplicarse en el backend y en cada ruta/acción protegida; ocultar enlaces o botones en el frontend no es suficiente.
+- **Estado:** decisión funcional acordada por el usuario; todavía no implementada ni probada. No se ha modificado el código ni la base de datos.
+- **Siguiente paso:** revisar los formularios y el backend existentes, y diseñar el flujo de registro, revisión de Secretaría, autenticación y autorización antes de programarlo.
