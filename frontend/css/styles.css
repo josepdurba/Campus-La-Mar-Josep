@@ -1,0 +1,257 @@
+/* VARIABLES */
+:root {
+    --navy: #123451;
+    --turquoise: #20B8B0;
+    --gold: #D5A63C;
+    --white: #FFFFFF;
+    --gray: #F4F7FA;
+    --text: #333333;
+}
+
+/* GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* CABECERA */
+.header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 20px 0;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: var(--turquoise);
+}
+
+.navbar {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.navbar a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: var(--turquoise);
+}
+
+.login-link {
+    border: 1px solid var(--turquoise);
+    padding: 8px 18px;
+    border-radius: 5px;
+}
+
+/* PORTADA */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: var(--gray);
+}
+
+.hero h1 {
+    color: var(--navy);
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    margin-bottom: 25px;
+}
+
+/* BOTONES */
+.btn {
+    display: inline-block;
+    background: var(--turquoise);
+    color: var(--white);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background: var(--navy);
+}
+
+/* CURSOS */
+.cursos {
+    padding: 70px 20px;
+    text-align: center;
+}
+
+.cursos h2 {
+    color: var(--navy);
+    margin-bottom: 15px;
+}
+
+/* LOGIN */
+.login-container {
+    min-height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background: var(--gray);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background: var(--white);
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h1 {
+    color: var(--navy);
+    margin-bottom: 10px;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.login-card label {
+    margin: 12px 0 5px;
+    font-weight: bold;
+}
+
+.login-card input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-card button {
+    margin-top: 25px;
+}
+
+/* PIE DE PÁGINA */
+.footer {
+    background: var(--navy);
+    color: var(--white);
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.copyright {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #cccccc;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .header .container {
+        flex-direction: column;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 70px 20px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+}
+
+/* TARJETAS DE CURSOS */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 40px auto 0;
+}
+
+.course-card {
+    background: var(--gray);
+    padding: 30px 25px;
+    border-radius: 10px;
+    border-bottom: 4px solid var(--turquoise);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.course-card h3 {
+    color: var(--navy);
+    margin-bottom: 12px;
+}
+
+/* SOBRE NOSOTROS */
+.about {
+    background: var(--gray);
+    text-align: center;
+    padding: 70px 20px;
+}
+
+.about h2 {
+    color: var(--navy);
+    margin-bottom: 20px;
+}
+
+.about p {
+    max-width: 750px;
+    margin: auto;
+}
+
+/* RESPONSIVE CURSOS */
+@media (max-width: 768px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.logo img {
+    width: 180px;
+    height: auto;
+    display: block;
+}
